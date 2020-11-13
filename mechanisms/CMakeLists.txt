@@ -90,7 +90,7 @@ foreach(mech ${allen_mechanisms})
 endforeach()
 
 # DEFAULT
-set(default_mechanisms exp2syn expsyn hh kamt kdrmt nax nernst pas)
+set(default_mechanisms exp2syn expsyn hh kamt kdrmt nax nernst pas sinsyn)
 set(default_mod_srcdir "${CMAKE_CURRENT_SOURCE_DIR}/default")
 set(mech_dir "${CMAKE_CURRENT_BINARY_DIR}/generated/default")
 file(MAKE_DIRECTORY "${mech_dir}")
@@ -128,7 +128,7 @@ foreach(mech ${default_mechanisms})
     endif()
 endforeach()
 
-# 
+#
 set(arbor_mechanism_sources ${mech_sources} PARENT_SCOPE)
 if(ARB_WITH_CUDA_CLANG OR ARB_WITH_HIP_CLANG)
     set_source_files_properties(${arbor_mechanism_sources} PROPERTIES LANGUAGE CXX)
