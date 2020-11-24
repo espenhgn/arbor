@@ -26,7 +26,7 @@ three cells:
      attached, with the intention of triggering some spikes. All of the preceding info:
      the morphology, dynamics, spike detector and current clamp are what is refered to in
      Arbor as the **description** of the cell.
-   | ``Cell 0`` should be modeled as a :ref:`cable cell<model_cable_cell>`,
+   | ``Cell 0`` should be modeled as a :ref:`cable cell<modelcablecell>`,
      (because cable cells allow complex dynamics such as ``hh``). This is refered to as
      the **kind** of the cell.
    | It's quite expensive to build cable cells, so we don't want to do this too often.
@@ -58,6 +58,10 @@ a spike should be observed on ``cell 2`` after some delay. To monitor
 the voltage on ``cell 2`` and record the spike, a **probe** can be set up
 on ``cell 2``. All this information is also registered via the recipe.
 
+There are additional docs on :ref:`cell kinds <modelcellkind>`;
+:ref:`cell descriptions <modelcelldesc>`; :ref:`network connections <modelconnections>`;
+:ref:`gap junction connections <modelgapjunctions>`; :ref:`probes <modelprobes>`
+
 The recipe is used to distribute the model across machines and is used in the simulation.
 Technical details of the recipe class are presented in the  :ref:`Python <pyrecipe>` and
 :ref:`C++ <cpprecipe>` APIs.
@@ -67,7 +71,7 @@ Are recipes always neccessary?
 
 Yes. However, we provide a python :class:`single_cell_model <py_single_cell_model>`
 that abstracts away the details of a recipe for simulations of  single, stand-alone
-:ref:`cable cells<model_cable_cell>`, which absolves the users from having to create the
+:ref:`cable cells<modelcablecell>`, which absolves the users from having to create the
 recipe themselves. This is possible because the number of cells, spike targets, spike sources
 and gap junction sites is fixed and known, as well as the fact that there can be no connections
 or gap junctions on a single cell. The single cell model is able to fill out the details of the
@@ -113,16 +117,15 @@ The steps of building a simulation from a recipe are:
 .. Note::
     An example of how performance considerations impact Arbor's architecture:
     you will notice cell kind and cell description are separately added to a recipe.
-    Consider the following conversation between an Arbor simulation, recipe and hardware back-end:
 
-    | Simulator: give me cell 37.
-    | Recipe: here you go, it's of C++ type s3cr1ts4uc3.
-    | Simulator: wot? What is the cell kind for cell 37?
-    | Recipe: it's a foobar.
-    | Simulator: Okay.
-    | Cell group implementations: which one of you lot deals with foobars?
-    | Foobar_GPUFTW_lolz: That'd be me, if we've got GPU enabled.
-    | Simulator: Okay it's up to you then to deal with this s3cr1ts4uc3 object.
+    It might seem like overkill to have a separate call that returns the cell
+    kind, when one could determine the kind by requesting the cell description,
+    then querying the kind of the result.
+
+    Some phases of model construction, however, only require the cell kind, and
+    not the full cell description, which can be quite expensive to
+    assemble; for example, a Purkinje cell model can have very complex geometry,
+    a rich collection of ion channels, and thousands of synapses.
 
 General best practices
 ----------------------
