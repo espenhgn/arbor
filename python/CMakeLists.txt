@@ -22,7 +22,6 @@ set(pyarb_source
     domain_decomposition.cpp
     error.cpp
     event_generator.cpp
-    flat_cell_builder.cpp
     identifiers.cpp
     mechanism.cpp
     morphology.cpp
@@ -71,14 +70,9 @@ add_subdirectory(test)
 # The module contains the dynamic library, __init__.py and VERSION information.
 set(python_mod_path "${CMAKE_CURRENT_BINARY_DIR}/arbor")
 set_target_properties(pyarb PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${python_mod_path}")
-file(COPY "${CMAKE_SOURCE_DIR}/python/__init__.py" DESTINATION "${python_mod_path}")
-file(COPY "${CMAKE_SOURCE_DIR}/VERSION" DESTINATION "${python_mod_path}")
+file(COPY "${PROJECT_SOURCE_DIR}/python/__init__.py" DESTINATION "${python_mod_path}")
+file(COPY "${PROJECT_SOURCE_DIR}/VERSION" DESTINATION "${python_mod_path}")
 
-# Determine the installation path, according to the Python version.
-# The installation for Python 3.8 would be:
-#  ${ARB_PYTHON_PREFIX}/python3.8/site-packages
-# By default ARB_PYTHON_PREFIX is set to CMAKE_INSTALL_PREFIX, and can be optionally
-# used to install the Python module as a user module, or in a virtualenv.
-find_package(PythonInterp REQUIRED)
-set(arb_pyexecdir "${ARB_PYTHON_PREFIX}/lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages")
-install(DIRECTORY ${python_mod_path} DESTINATION ${arb_pyexecdir})
+# Set the installation path
+
+install(DIRECTORY ${python_mod_path} DESTINATION ${ARB_PYTHON_LIB_PATH})
