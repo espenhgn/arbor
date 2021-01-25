@@ -3,8 +3,10 @@
 Python Installation
 ===================
 
-Arbor's Python API will be the most convenient interface for most users. Note that we support Python 3.6 and later.
-Any instruction hereafter assumes you're using `python` and `pip` no older than that.
+Arbor's Python API will be the most convenient interface for most users.
+
+.. note::
+    Arbor requires Python version 3.6 and later.
 
 Getting Arbor
 -------------
@@ -41,7 +43,7 @@ to see information about the version and enabled features:
     >>> print(arbor.__config__)
 
 You are now ready to use Arbor! You can continue reading these documentation pages, have a look at the
-:ref:`Python API reference<pyoverview>` , or visit the :ref:`Quick Start page<tutorialsimplecell>`.
+:ref:`Python API reference<pyoverview>` , or visit the :ref:`Quick Start page<tutorialsinglecell>`.
 
 .. Note::
     To get help in case of problems installing with pip, run pip with the ``--verbose`` flag, and attach the output
